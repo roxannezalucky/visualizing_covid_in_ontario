@@ -11,6 +11,12 @@ df = pd.read_csv('/Users/roxy/Documents/covid/conposcovidloc1.csv')
 #filtering out when date is null
 df = df[~df['Accurate_Episode_Date'].isnull()]
 
+print("\nCities Available")
+cities = sorted(list(set(df['Reporting_PHU_City'])))
+middle_index = len(cities)//2
+print(cities[:middle_index])
+print(cities[middle_index:])
+
 #filtering for just city of observation, some options: 'Mississauga'|'Windsor'
 city = "Toronto"
 
@@ -54,10 +60,12 @@ plot.plot(df_daily_counts['Accurate_Episode_Date'], df_daily_counts['Cumulative_
 plot.xlabel('date')
 plot.xticks(rotation=40)
 plot.ylabel('Cumulative Sum of New Cases')
+
+plot.axvline(x='2020-09-08', label='School Opens', c='r')
+plot.axvline(x='2020-10-12', label='Canadian Thanksgiving', c='r')
+plot.axvline(x='2020-12-25', label='Christmas', c='r')
+
 plot.title('Confirmed Positive Cases of Covid-19 in {}, Ontario, \n Source: Government of Ontario'.format(city))
-#https://matplotlib.org/3.1.1/gallery/pyplots/dollar_ticks.html#sphx-glr-gallery-pyplots-dollar-ticks-py
-#fig = plot.figure()
-#ax = fig.gca()
 
 #date_format = mdates.DateFormatter('%d')
 #ax.xaxis.set_major_formatter(date_format)
@@ -70,4 +78,5 @@ plot.title('Confirmed Positive Cases of Covid-19 in {}, Ontario, \n Source: Gove
 #https://stackoverflow.com/questions/53233228/plot-latitude-longitude-from-csv-in-python-3-6
 #plot.scatter(x=df['Reporting_PHU_Longitude'], y=df['Reporting_PHU_Latitude'])
 
+plot.legend()
 plot.show()
